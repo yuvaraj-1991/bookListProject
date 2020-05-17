@@ -1,72 +1,58 @@
-//UI Variables
-const form = document.getElementById('book-form')
-const title = document.getElementById('title')
-const author = document.getElementById('author')
-const isbn = document.getElementById('isbn')
-const tbody = document.getElementById('book-list')
+//Book Constructor
+function Book(title, author, isbn){
+    this.title = title
+    this.author = author
+    this.isbn = isbn
+}
 
+//UI Constructor
+function UI() {}
 
-form.addEventListener('submit',function(e){
+//Add book to List
+UI.prototype.addBookToList = function(book){
+    const list = document.getElementById('book-list')
+
+    //Create tr element
+    const row = document.createElement('tr')
+
+    //Insert columns
+    row.innerHTML = `
+        <td>${book.title}</td>
+        <td>${book.author}</td>
+        <td>${book.isbn}</td>
+        <td><a href="#" class="delete">X</a></td>
+    `
+
+    //Append to the list
+    list.appendChild(row)
+}
+
+//Clear Fields
+UI.prototype.clearFields = function(){
+    document.getElementById('title').value = ''
+    document.getElementById('author').value = ''
+    document.getElementById('isbn').value = ''
+}
+
+//Event Listeners
+document.getElementById('book-form').addEventListener('submit',function(e){
+    
+    //UI Variables & Get Form values
+    const title = document.getElementById('title').value
+    const author = document.getElementById('author').value
+    const isbn = document.getElementById('isbn').value
+    
+    //Instantiate Book
+    const book = new Book(title, author, isbn)
+    
+    //Instantiate UI
+    const ui = new UI()
+    
+    //Add book to List
+    ui.addBookToList(book)
+
+    //Clear fields
+    ui.clearFields()
+
     e.preventDefault()
-
-      
-    //function titledata(){
-
-        const titleInput = title.value
-    
-        //Create Elements 
-        const titleInputValue = document.createElement('td')
-        //Create ClassName
-        titleInputValue.className = 'titleInput'
-        //Add text content 
-        titleInputValue.innerHTML = titleInput
-    
-        //Create link
-        const link = document.createElement('link')
-        //Create ClassName
-        link.className = 'link'
-        //Add Icon to link
-        link.innerHTML = 'X'
-        //Append link to titleInput
-        //titleInputValue.appendChild(link)
-    
-        tbody.appendChild(titleInputValue)
-    //}
-    
-    //function authorData(input){
-        const authorInput = author.value
-    
-        //Create Element
-        const authorInputValue = document.createElement('td')
-        //Create ClassName
-        authorInputValue.className = 'authorInput'
-        //Add text content
-        authorInputValue.innerHTML = authorInput
-        //Append link
-       // authorInputValue.appendChild(link)
-    
-        tbody.appendChild(authorInputValue)
-
-    //function isbn data
-
-    const isbnInput = isbn.value
-
-    //Create element
-    const isbnInputValue = document.createElement('td')
-    //Create Classname
-    isbnInputValue.className = 'isbninput'
-    //Text content
-    isbnInputValue.innerHTML = isbnInput
-    //Append Link
-    //isbnInputValue.appendChild(link)
-
-    tbody.appendChild(isbnInputValue)
-
-    tbody.appendChild(link)
-    })
-
-    
-    
-
-
-
+})
